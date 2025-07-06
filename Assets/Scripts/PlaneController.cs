@@ -18,6 +18,8 @@ public class PlaneController : MonoBehaviour
     private float stepTimer = 0f;
     public float stepInterval = 1f; // Czas między krokami
 
+    [HideInInspector] public bool canMove = true; // <<< DODANE
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -26,6 +28,12 @@ public class PlaneController : MonoBehaviour
 
     void Update()
     {
+        if (!canMove) // <<< DODANE
+        {
+            inputX = 0f;
+            return;
+        }
+
         inputX = Input.GetAxisRaw("Horizontal");
 
         bool isMoving = Mathf.Abs(inputX) > 0.1f;
@@ -47,6 +55,8 @@ public class PlaneController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!canMove) return; // <<< DODANE
+
         float targetVelocityX = inputX * moveSpeed;
         float velocityChangeX = targetVelocityX - rb.linearVelocity.x;
 
