@@ -1,16 +1,16 @@
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public class Interactable : MonoBehaviour
 {
-    public string[] dialogueLines;
-    private int currentLine = 0;
+    public GameObject promptImage;           // Obrazek z literk¹ "E"
+    public GameObject dialogueUI;            // UI z Image (na którym wyœwietlamy obrazy z tekstem)
+    public Image dialogueImageRenderer;      // Komponent Image do wyœwietlania grafiki dialogu
+    public Sprite[] dialogueSprites;         // Grafiki z tekstem (jpg/png jako sprite’y)
+
+    private int currentImage = 0;
     private bool playerInRange = false;
     private bool dialogueActive = false;
-
-    public GameObject promptUI;
-    public GameObject dialogueUI;
-    public TMP_Text dialogueText;
 
     private PlaneController planeController;
 
@@ -24,38 +24,49 @@ public class Interactable : MonoBehaviour
             }
             else
             {
-                NextLine();
+                ShowNextImage();
             }
         }
     }
 
     void StartDialogue()
     {
+        if (dialogueSprites == null || dialogueSprites.Length == 0)
+        {
+            Debug.LogWarning("Brak przypisanych grafik dialogowych!");
+            return;
+        }
+
         dialogueActive = true;
-        promptUI.SetActive(false);
+        currentImage = 0;
+        promptImage.SetActive(false);
         dialogueUI.SetActive(true);
-        currentLine = 0;
-        dialogueText.text = dialogueLines[currentLine];
+        dialogueImageRenderer.sprite = dialogueSprites[currentImage];
 
         if (planeController != null)
             planeController.canMove = false;
     }
 
-    void NextLine()
+    void ShowNextImage()
     {
-        currentLine++;
-        if (currentLine >= dialogueLines.Length)
+        currentImage++;
+        if (currentImage >= dialogueSprites.Length)
         {
-            dialogueUI.SetActive(false);
-            dialogueActive = false;
-
-            if (planeController != null)
-                planeController.canMove = true;
+            EndDialogue();
         }
         else
         {
-            dialogueText.text = dialogueLines[currentLine];
+            dialogueImageRenderer.sprite = dialogueSprites[currentImage];
         }
+    }
+
+    void EndDialogue()
+    {
+        dialogueUI.SetActive(false);
+        dialogueActive = false;
+
+        if (planeController != null)
+            planeController.canMove = true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -63,13 +74,11 @@ public class Interactable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
-            promptUI.SetActive(true);
-
+            promptImage.SetActive(true);
 
             if (planeController == null)
             {
                 planeController = other.GetComponent<PlaneController>();
-                Debug.Log("Znaleziono PlaneController: " + planeController);
             }
         }
     }
@@ -79,7 +88,7 @@ public class Interactable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
-            promptUI.SetActive(false);
+            promptImage.SetActive(false);
         }
     }
 }
