@@ -8,26 +8,45 @@ public class PlaneController : MonoBehaviour
     public float acceleration = 15f;
     public float deceleration = 20f;
     private float inputX;
-    private Vector3 currentVelocity;
 
     private Rigidbody rb;
+
+    [Header("Footstep Sounds")]
+    public AudioSource footstep1Sound;
+    public AudioSource footstep2Sound;
+    private bool playFirstFootstep = true;
+    private float stepTimer = 0f;
+    public float stepInterval = 1f; // Czas między krokami
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        // Zamra�amy rotacj� i ruch w osi Z, czyli tylko X si� porusza
         rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
     }
 
     void Update()
     {
-        // Tylko ruch w osi X
         inputX = Input.GetAxisRaw("Horizontal");
+
+        bool isMoving = Mathf.Abs(inputX) > 0.1f;
+
+        if (isMoving)
+        {
+            stepTimer -= Time.deltaTime;
+            if (stepTimer <= 0f)
+            {
+                PlayFootstep();
+                stepTimer = stepInterval;
+            }
+        }
+        else
+        {
+            stepTimer = 0f; // Resetuje licznik gdy przestajesz się ruszać
+        }
     }
 
     void FixedUpdate()
     {
-        // Ruch tylko w osi X
         float targetVelocityX = inputX * moveSpeed;
         float velocityChangeX = targetVelocityX - rb.linearVelocity.x;
 
@@ -35,5 +54,15 @@ public class PlaneController : MonoBehaviour
         velocityChangeX = Mathf.Clamp(velocityChangeX, -accelRate * Time.fixedDeltaTime, accelRate * Time.fixedDeltaTime);
 
         rb.AddForce(new Vector3(velocityChangeX, 0f, 0f), ForceMode.VelocityChange);
+    }
+
+    void PlayFootstep()
+    {
+        if (playFirstFootstep && footstep1Sound != null)
+            footstep1Sound.Play();
+        else if (!playFirstFootstep && footstep2Sound != null)
+            footstep2Sound.Play();
+
+        playFirstFootstep = !playFirstFootstep;
     }
 }
