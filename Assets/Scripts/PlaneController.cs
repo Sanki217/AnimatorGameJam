@@ -16,19 +16,30 @@ public class PlaneController : MonoBehaviour
     public AudioSource footstep2Sound;
     private bool playFirstFootstep = true;
     private float stepTimer = 0f;
-    public float stepInterval = 1f; // Czas między krokami
+    public float stepInterval = 1f;
 
-    [HideInInspector] public bool canMove = true; // <<< DODANE
+    [HideInInspector] public bool canMove = true;
+
+    [Header("Visual & Animation")]
+    public Transform visualTransform; // drag your Visual child here
+    private Animator animator;
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
+
+        if (visualTransform != null)
+        {
+            animator = visualTransform.GetComponent<Animator>();
+            spriteRenderer = visualTransform.GetComponent<SpriteRenderer>();
+        }
     }
 
     void Update()
     {
-        if (!canMove) // <<< DODANE
+        if (!canMove)
         {
             inputX = 0f;
             return;
@@ -49,13 +60,21 @@ public class PlaneController : MonoBehaviour
         }
         else
         {
-            stepTimer = 0f; // Resetuje licznik gdy przestajesz się ruszać
+            stepTimer = 0f;
         }
+
+        // Animate
+        if (animator != null)
+            animator.SetFloat("Speed", Mathf.Abs(inputX));
+
+        // Flip sprite
+        if (spriteRenderer != null && Mathf.Abs(inputX) > 0.1f)
+            spriteRenderer.flipX = inputX < 0;
     }
 
     void FixedUpdate()
     {
-        if (!canMove) return; // <<< DODANE
+        if (!canMove) return;
 
         float targetVelocityX = inputX * moveSpeed;
         float velocityChangeX = targetVelocityX - rb.linearVelocity.x;
