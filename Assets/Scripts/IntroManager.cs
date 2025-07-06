@@ -1,10 +1,11 @@
 using UnityEngine;
-using System.Collections;
 
 public class IntroManager : MonoBehaviour
 {
-    public GameObject introObject;
-    public GameObject mainGameObject;
+    [Header("Animator Setup")]
+    public Animator introAnimator; // reference to Animator on your intro object
+
+    [Header("Audio")]
     public AudioSource alarmClockSound;
     public AudioSource parkAmbientSound;
     public AudioSource hospitalAmbientSound;
@@ -14,8 +15,6 @@ public class IntroManager : MonoBehaviour
 
     void Start()
     {
-        introObject.SetActive(true);
-        mainGameObject.SetActive(false);
         parkAmbientSound.Play();
     }
 
@@ -24,18 +23,15 @@ public class IntroManager : MonoBehaviour
         if (!triggered && Input.GetKeyDown(KeyCode.Space))
         {
             triggered = true;
+            introAnimator.SetTrigger("WakeUp"); // Set up this trigger in your Animator
+            // Play sounds
             alarmClockSound.Play();
-            StartCoroutine(SwitchToMainGame());
-        }
-    }
+            parkAmbientSound.Stop();
+            hospitalAmbientSound.Play();
+            heartMonitorSound.Play();
 
-    IEnumerator SwitchToMainGame()
-    {
-        yield return new WaitForSeconds(5f);
-        introObject.SetActive(false);
-        parkAmbientSound.Stop();
-        hospitalAmbientSound.Play();
-        heartMonitorSound.Play();
-        mainGameObject.SetActive(true);
+          
+             
+        }
     }
 }
