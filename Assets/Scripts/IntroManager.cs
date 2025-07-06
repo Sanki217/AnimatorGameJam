@@ -7,6 +7,8 @@ public class IntroManager : MonoBehaviour
     public GameObject mainGameObject;
     public AudioSource alarmClockSound;
     public AudioSource parkAmbientSound;
+    public AudioSource hospitalAmbientSound;
+    public AudioSource heartMonitorSound;
 
     private bool triggered = false;
 
@@ -32,6 +34,8 @@ public class IntroManager : MonoBehaviour
         yield return new WaitForSeconds(5f);
         introObject.SetActive(false);
         parkAmbientSound.Stop();
+        hospitalAmbientSound.Play();
+        heartMonitorSound.Play();
         mainGameObject.SetActive(true);
     }
 }
