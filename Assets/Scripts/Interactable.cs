@@ -3,10 +3,9 @@ using UnityEngine.UI;
 
 public class Interactable : MonoBehaviour
 {
-    public GameObject promptImage;           // Obrazek z literk¹ "E"
-    public GameObject dialogueUI;            // UI z Image (na którym wyœwietlamy obrazy z tekstem)
-    public Image dialogueImageRenderer;      // Komponent Image do wyœwietlania grafiki dialogu
-    public Sprite[] dialogueSprites;         // Grafiki z tekstem (jpg/png jako sprite’y)
+    public GameObject promptImage;           // Obrazek z literk? "E"
+    public GameObject dialogueUI;            // UI, który zawiera obiekty dialogowe jako dzieci
+    public GameObject[] dialogueObjects;     // GameObjecty z grafik? dialogow? (np. prefabki z obrazem i tekstem)
 
     private int currentImage = 0;
     private bool playerInRange = false;
@@ -31,9 +30,9 @@ public class Interactable : MonoBehaviour
 
     void StartDialogue()
     {
-        if (dialogueSprites == null || dialogueSprites.Length == 0)
+        if (dialogueObjects == null || dialogueObjects.Length == 0)
         {
-            Debug.LogWarning("Brak przypisanych grafik dialogowych!");
+            Debug.LogWarning("Brak przypisanych obiektów dialogowych!");
             return;
         }
 
@@ -41,7 +40,11 @@ public class Interactable : MonoBehaviour
         currentImage = 0;
         promptImage.SetActive(false);
         dialogueUI.SetActive(true);
-        dialogueImageRenderer.sprite = dialogueSprites[currentImage];
+
+        for (int i = 0; i < dialogueObjects.Length; i++)
+            dialogueObjects[i].SetActive(false); // ukryj wszystkie
+
+        dialogueObjects[currentImage].SetActive(true); // poka? pierwszy
 
         if (planeController != null)
             planeController.canMove = false;
@@ -49,14 +52,16 @@ public class Interactable : MonoBehaviour
 
     void ShowNextImage()
     {
+        dialogueObjects[currentImage].SetActive(false); // ukryj obecny
+
         currentImage++;
-        if (currentImage >= dialogueSprites.Length)
+        if (currentImage >= dialogueObjects.Length)
         {
             EndDialogue();
         }
         else
         {
-            dialogueImageRenderer.sprite = dialogueSprites[currentImage];
+            dialogueObjects[currentImage].SetActive(true); // poka? nast?pny
         }
     }
 
@@ -64,6 +69,10 @@ public class Interactable : MonoBehaviour
     {
         dialogueUI.SetActive(false);
         dialogueActive = false;
+
+        // Ukryj ostatni element, na wypadek, gdyby by? widoczny
+        if (currentImage < dialogueObjects.Length)
+            dialogueObjects[currentImage].SetActive(false);
 
         if (planeController != null)
             planeController.canMove = true;
@@ -77,9 +86,7 @@ public class Interactable : MonoBehaviour
             promptImage.SetActive(true);
 
             if (planeController == null)
-            {
                 planeController = other.GetComponent<PlaneController>();
-            }
         }
     }
 
