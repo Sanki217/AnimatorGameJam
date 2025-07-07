@@ -11,12 +11,16 @@ public class IntroManager : MonoBehaviour
     public AudioSource parkAmbientSound;
     public AudioSource hospitalAmbientSound;
     public AudioSource heartMonitorSound;
+    public GameObject playerObject; // Drag player object here
+    private PlaneController playerController;
 
     private bool triggered = false;
 
     void Start()
     {
         parkAmbientSound.Play();
+        playerController = playerObject.GetComponent<PlaneController>();
+        playerController.canMove = false; // <<< Disable movement at start
     }
 
     void Update()
@@ -38,5 +42,6 @@ public class IntroManager : MonoBehaviour
     public void OnWakeUpAnimationEnd()
     {
         introObject.SetActive(false); // <<< DISABLES the animated object
+        playerController.canMove = true; // <<< Enable movement now
     }
 }
