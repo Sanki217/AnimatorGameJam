@@ -1307,6 +1307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5737150f639b1d249a4be95fd3eab4ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  introObject: {fileID: 1862927853}
   introAnimator: {fileID: 1862927854}
   alarmClockSound: {fileID: 2006823032}
   parkAmbientSound: {fileID: 424446126}
@@ -2221,6 +2222,7 @@ GameObject:
   - component: {fileID: 1862927856}
   - component: {fileID: 1862927855}
   - component: {fileID: 1862927854}
+  - component: {fileID: 1862927857}
   m_Layer: 0
   m_Name: Intro
   m_TagString: Untagged
@@ -2320,6 +2322,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1862927857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862927853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a609f2fb45fd3b04cbbf34d2364f25f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  introManager: {fileID: 699520579}
 --- !u!1 &2006823031
 GameObject:
   m_ObjectHideFlags: 0
@@ -2471,7 +2486,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8670281770962996683, guid: 2d449516c1cf2db43930bc53d71e4cc0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.96
       objectReference: {fileID: 0}
     - target: {fileID: 8670281770962996683, guid: 2d449516c1cf2db43930bc53d71e4cc0, type: 3}
       propertyPath: m_LocalPosition.y

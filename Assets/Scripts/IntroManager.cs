@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class IntroManager : MonoBehaviour
 {
-    [Header("Animator Setup")]
-    public Animator introAnimator; // reference to Animator on your intro object
+    [Header("References")]
+    public GameObject introObject; // <<< assign your animated object here
+    public Animator introAnimator; // <<< assign Animator from that same object
 
     [Header("Audio")]
     public AudioSource alarmClockSound;
@@ -23,15 +24,19 @@ public class IntroManager : MonoBehaviour
         if (!triggered && Input.GetKeyDown(KeyCode.Space))
         {
             triggered = true;
-            introAnimator.SetTrigger("WakeUp"); // Set up this trigger in your Animator
+            introAnimator.SetTrigger("WakeUp"); // trigger animation transition
+
             // Play sounds
             alarmClockSound.Play();
             parkAmbientSound.Stop();
             hospitalAmbientSound.Play();
             heartMonitorSound.Play();
-
-          
-             
         }
+    }
+
+    // This will be called via Animation Event
+    public void OnWakeUpAnimationEnd()
+    {
+        introObject.SetActive(false); // <<< DISABLES the animated object
     }
 }
