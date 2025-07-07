@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -95,7 +95,73 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: enviro1_0
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 1
+        width: 1393
+        height: 1487
+      alignment: 9
+      pivot: {x: 0.5018526, y: 0.0001843985}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dc03016e173fab4c802d2bb4f3fdc9a
+      internalID: -1366516175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enviro1_1
+      rect:
+        serializedVersion: 2
+        x: 1520
+        y: 5
+        width: 1153
+        height: 1719
+      alignment: 9
+      pivot: {x: 0.5044765, y: 0.0015856974}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 752d19297036cca4d972d8e549032d20
+      internalID: -1788932615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enviro1_2
+      rect:
+        serializedVersion: 2
+        x: 2855
+        y: 7
+        width: 913
+        height: 1848
+      alignment: 9
+      pivot: {x: 0.50000024, y: 0.005655708}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a7595dea4288d043842717af7f06597
+      internalID: -132120025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -107,7 +173,12 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      enviro1_0: -1366516175
+      enviro1_1: -1788932615
+      enviro1_2: -132120025
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
