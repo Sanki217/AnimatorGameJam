@@ -11,6 +11,7 @@ public class IntroManager : MonoBehaviour
     public AudioSource parkAmbientSound;
     public AudioSource hospitalAmbientSound;
     public AudioSource heartMonitorSound;
+    public AudioSource atmosphereSound;
     public GameObject playerObject; // Drag player object here
     private PlaneController playerController;
 
@@ -49,5 +50,8 @@ public class IntroManager : MonoBehaviour
         introObject.SetActive(false); // <<< DISABLES the animated object
         playerController.canMove = true; // <<< Enable movement now
         terrainObject.SetActive(true);
+        hospitalAmbientSound.Stop();
+        heartMonitorSound.Stop();
+        atmosphereSound.Play();
     }
 }
