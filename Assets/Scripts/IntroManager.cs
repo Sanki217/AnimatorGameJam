@@ -15,9 +15,8 @@ public class IntroManager : MonoBehaviour
     public GameObject playerObject; // Drag player object here
     private PlaneController playerController;
 
-    [Header("Environment")]
-    public GameObject terrainObject; // Drag your Terrain here in the Inspector
 
+    
     private bool triggered = false;
 
     void Start()
@@ -25,13 +24,12 @@ public class IntroManager : MonoBehaviour
         parkAmbientSound.Play();
         playerController = playerObject.GetComponent<PlaneController>();
         playerController.canMove = false; // <<< Disable movement at start
-        terrainObject.SetActive(false); // Hide terrain during intro
 
     }
 
     void Update()
     {
-        if (!triggered && Input.GetKeyDown(KeyCode.Space))
+        if (!triggered && Input.anyKeyDown)
         {
             triggered = true;
             introAnimator.SetTrigger("WakeUp"); // trigger animation transition
@@ -49,7 +47,6 @@ public class IntroManager : MonoBehaviour
     {
         introObject.SetActive(false); // <<< DISABLES the animated object
         playerController.canMove = true; // <<< Enable movement now
-        terrainObject.SetActive(true);
         hospitalAmbientSound.Stop();
         heartMonitorSound.Stop();
         atmosphereSound.Play();
